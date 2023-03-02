@@ -1,20 +1,15 @@
-/* eslint-disable no-console */
-import { ConnectionOptions, connect } from "mongoose";
+const { Sequelize } = require("sequelize");
 
 const connectDB = async () => {
   try {
-    const options: ConnectionOptions = {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true,
-    };
-    await connect(`${process.env.MONGO_URI}`, options);
-    console.log("MongoDB Connected...");
-  } catch (err) {
-    console.error(err);
-    // Exit process with failure
-    process.exit(1);
+    const sequelize = new Sequelize("todo-list", "postgres", "Qwerty123", {
+      host: "localhost",
+      dialect: "postgres",
+    });
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
   }
 };
 
