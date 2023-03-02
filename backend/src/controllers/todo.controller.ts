@@ -5,34 +5,28 @@ export class TodoController {
   static async getByIdTodo(req: ITodoRequest) {
     const { params } = req;
     const { id } = params;
-    const todos = await TodoService.findById(id);
-    return todos;
+    return await TodoService.findById(id);
   }
 
   static async getAllTodo(req: IFiltersRequest): Promise<ITodo[] | null> {
     const { user } = req;
-    const { search, status } = req.query;
-    const todos = await TodoService.getAllTodosByUser(user.id, status, search);
-    return todos;
+    return await TodoService.getAllTodosByUser(user.id);
   }
 
   static async createTodo(req: ITodoRequest) {
     const { body } = req;
-    const createdTodo = await TodoService.create(body);
-    return createdTodo;
+    return await TodoService.create(body);
   }
 
   static async updateTodo(req: ITodoRequest) {
     const { body, params } = req;
     const { id } = params;
-    const updatedTodo = await TodoService.update(id, body);
-    return updatedTodo;
+    return await TodoService.update(id, body);
   }
 
   static async deleteTodo(req: ITodoRequest) {
     const { params } = req;
     const { id } = params;
-    const result = await TodoService.delete(id);
-    return result;
+    return await TodoService.delete(id);
   }
 }

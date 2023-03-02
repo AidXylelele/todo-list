@@ -1,29 +1,26 @@
-import { Model, model, Schema } from 'mongoose';
-import { IUser } from '../types/user.type';
+import { sequelize } from "../config/database";
+import Group from "./Group";
+import Todo from "./Todo";
+const { DataTypes } = require("sequelize");
 
-const userSchema: Schema<IUser> = new Schema({
+const User = sequelize.define("users", {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+  name: { type: DataTypes.STRING, allowNull: false },
   email: {
-    type: String,
-    required: true,
-    unique: true
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   password: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false,
   },
-  avatar: {
-    type: String
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  }
 });
 
-const User: Model<IUser> = model('User', userSchema);
+User.hasMany(Todo);
+User.hasMany(Group);
 
 export default User;

@@ -1,27 +1,19 @@
-import { Model, model, Schema } from 'mongoose';
-import { ITodo } from '../types/todos.type';
+import { sequelize } from "../config/database";
+import Group from "./Group";
+import User from "./User";
+const { DataTypes } = require("sequelize");
 
-const todoSchema: Schema<ITodo> = new Schema({
-  title: {
-    type: String,
-    required: true
+const Todo = sequelize.define("todos", {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
   },
-  data: {
-    type: String,
-    required: true
-  },
-  isDone: {
-    type: Boolean,
-    default: false
-  },
-  isPrivate: {
-    type: Boolean,
-    default: false
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    required: true
-  }
+  text: { type: DataTypes.TEXT, allowNull: false },
+  isDone: { type: DataTypes.BOOLEAN, default: false, allowNull: false },
 });
 
-export const Todo: Model<ITodo> = model('Todo', todoSchema);
+Todo.belongsTo(User);
+Todo.hasOne(Group);
+
+export default Todo;

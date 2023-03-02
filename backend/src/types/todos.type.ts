@@ -1,6 +1,6 @@
-import { Document } from 'mongoose';
-import { Request } from 'express';
-import { IUser } from './user.type';
+import { Document } from "mongoose";
+import { Request } from "express";
+import { IUser } from "./user.type";
 
 export interface ITodo extends Document {
   title: string;
@@ -19,6 +19,4 @@ export interface ITodoRequest extends Request {
 
 export interface IFiltersRequest extends Request {
   user: IUser;
-  search: string;
-  status: string;
 }

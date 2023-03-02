@@ -1,9 +1,10 @@
+import Todo from "../models/Todo";
 import { ITodo } from "../types/todos.type";
-import { Todo } from "../models/Todo";
+
 
 export class TodoService {
   static async create(data: ITodo) {
-    const newTodo = new Todo(data);
+    const newTodo = Todo.create(data);
     return newTodo.save();
   }
 
@@ -19,23 +20,8 @@ export class TodoService {
     return Todo.find();
   }
 
-  static async getAllTodosByUser(
-    userId: string,
-    status: any,
-    search: any
-  ): Promise<ITodo[] | null> {
-    console.log(userId);
-    const filter: { [key: string]: any } = {
-      completed: { isDone: true },
-      privated: { isPrivate: true },
-      public: { isPrivate: false },
-    };
-    const query = {
-      userId,
-      ...filter[status],
-      ...(search && { title: { $regex: search } }),
-    };
-    const todos = await Todo.find(query);
+  static async getAllTodosByUser(userId: string): Promise<ITodo[] | null> {
+    const todos = await Todo.find({ where: { userId } });
     return todos;
   }
 
