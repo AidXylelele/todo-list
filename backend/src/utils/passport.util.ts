@@ -1,5 +1,5 @@
 import { IUser } from '../types/user.type';
-import User from '../models/User';
+import UserService from '../services/user.service';
 
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const { PassportStatic } = require('passport');
@@ -15,14 +15,14 @@ export const applyPassportStrategy = (passport: typeof PassportStatic) => {
   passport.use(
     new Strategy(
       options,
-      async (payload: IPayload, done: (a: null, b: IUser | boolean) => any) => {
-        const user = await User.findOne({
-          where: { id: payload.userId },
-          attributes: ['name', 'email', 'id'],
-        });
+      async (
+        { userId }: IPayload,
+        done: (a: null, b: IUser | boolean) => any
+      ) => {
+        const { dataValues } = await UserService.findUserById(userId);
         try {
-          if (user) {
-            return done(null, user);
+          if (dataValues) {
+            return done(null, dataValues);
           }
           return done(null, false);
         } catch (e) {

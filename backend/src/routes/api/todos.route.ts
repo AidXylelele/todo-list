@@ -14,21 +14,25 @@ const todosRouter: Router = Router();
 todosRouter.get(
   '',
   passport.authenticate('jwt', { session: false }),
-  responseHandler(TodoController.getAllTodo)
+  responseHandler(TodoController.getAll)
 );
 todosRouter.post(
   '',
   passport.authenticate('jwt', { session: false }),
   validateBody(TodoSchema),
-  responseHandler(TodoController.createTodo)
+  responseHandler(TodoController.create)
 );
 todosRouter.use(
   '/:id',
   passport.authenticate('jwt', { session: false }),
   // checkExistance<ITodo>('id', TodoService.getById)
 );
-todosRouter.get('/:id', responseHandler(TodoController.getByIdTodo));
-todosRouter.put('/:id', validateBody(TodoSchema), responseHandler(TodoController.updateTodo));
-todosRouter.delete('/:id', responseHandler(TodoController.deleteTodo));
+todosRouter.get('/:id', responseHandler(TodoController.getById));
+todosRouter.put(
+  '/:id',
+  validateBody(TodoSchema),
+  responseHandler(TodoController.update)
+);
+todosRouter.delete('/:id', responseHandler(TodoController.delete));
 
 export default todosRouter;

@@ -18,26 +18,14 @@ export class TodoService {
   static async getAll(userId: string) {
     return await Todo.findAll({
       where: { userId },
-      include: [
-        {
-          model: SubTask,
-        },
-      ],
+      include: [{ as: 'sub-tasks', model: SubTask }],
     });
   }
 
   static async getById(userId: string, id: string): Promise<ITodo | null> {
-    return await Todo.findOne({
+    return await Todo.findAll({
       where: { id, userId },
-      include: [
-        {
-          model: SubTask,
-          where: {
-            todoId: id,
-            userId,
-          },
-        },
-      ],
+      include: [{ as: 'sub-tasks', model: SubTask }],
     });
   }
 }

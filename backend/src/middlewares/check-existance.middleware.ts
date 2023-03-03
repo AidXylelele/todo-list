@@ -12,7 +12,7 @@ export const checkExistance =
       if (todo) {
         return next();
       }
-      throw new CustomError(404, 'Not found');
+      throw new CustomError(404, 'Something went wrong');
     } catch (e) {
       next(e);
     }

@@ -12,6 +12,9 @@ const Todo = sequelize.define('todos', {
   isDone: { type: DataTypes.BOOLEAN, default: false, allowNull: false },
 });
 
-Todo.hasMany(SubTask, { as: 'sub-tasks', foreignKey: 'todoId' });
+Todo.hasMany(SubTask, {
+  as: 'sub-tasks',
+  foreignKey: 'todoId',
+});
 
 export default Todo;
