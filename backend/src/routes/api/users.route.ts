@@ -1,12 +1,7 @@
 import { Router } from 'express';
 import { responseHandler } from '../../middlewares/response.middleware';
 import { validateBody } from '../../middlewares/body.middleware';
-import {
-  SignUpSchema,
-  SignInSchema,
-  ChangePasswordSchema,
-  UpdateUserSchema
-} from '../../validators/user.validators';
+import { SignUpSchema, SignInSchema } from '../../validators/user.validators';
 import { checkEmailExistance } from '../../middlewares/check-acctount.middleware';
 import { UserController } from '../../controllers/user.controller';
 
@@ -20,22 +15,14 @@ router.post(
   checkEmailExistance,
   responseHandler(UserController.create)
 );
-router.post('/login', validateBody(SignInSchema), responseHandler(UserController.login));
+router.post(
+  '/login',
+  validateBody(SignInSchema),
+  responseHandler(UserController.login)
+);
 router.get(
   '/profile',
   passport.authenticate('jwt', { session: false }),
   responseHandler(UserController.find)
-);
-router.put(
-  '/profile/password',
-  passport.authenticate('jwt', { session: false }),
-  validateBody(ChangePasswordSchema),
-  responseHandler(UserController.changePassword)
-);
-router.put(
-  '/profile/avatar',
-  passport.authenticate('jwt', { session: false }),
-  validateBody(UpdateUserSchema),
-  responseHandler(UserController.updateUserAvatar)
 );
 export default router;

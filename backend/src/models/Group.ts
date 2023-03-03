@@ -1,9 +1,8 @@
-import { sequelize } from "../config/database";
-import Todo from "./Todo";
-import User from "./User";
-const { DataTypes } = require("sequelize");
+import { sequelize } from '../config/database';
+import Todo from './Todo';
+const { DataTypes } = require('sequelize');
 
-const Group = sequelize.define("groups", {
+const Group = sequelize.define('groups', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -12,7 +11,9 @@ const Group = sequelize.define("groups", {
   title: { type: DataTypes.TEXT, allowNull: false },
 });
 
-Group.belongsTo(User);
-Group.hasMany(Todo);
+Group.hasMany(Todo, {
+  as: 'todos',
+  foreignKey: 'groupId',
+});
 
 export default Group;

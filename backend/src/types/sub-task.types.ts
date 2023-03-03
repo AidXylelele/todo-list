@@ -1,14 +1,14 @@
 import { Request } from 'express';
 import { IUser } from './user.type';
 
-export interface ITodo {
+export interface ISubTask {
   title: string;
   data: string;
   isDone: boolean;
 }
 
-export interface ITodoRequest extends Request {
-  body: ITodo;
+export interface ISubTaskRequest extends Request {
+  body: ISubTask;
   user: IUser;
   params: {
     id: string;

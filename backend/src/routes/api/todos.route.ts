@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { TodoController } from '../../controllers/todo.controller';
 import { TodoSchema } from '../../validators/todo.validators';
 import { validateBody } from '../../middlewares/body.middleware';
-import { validateId } from '../../middlewares/validateId.middleware';
 import { checkExistance } from '../../middlewares/check-existance.middleware';
 import { ITodo } from '../../types/todos.type';
 import { TodoService } from '../../services/todo.service';
@@ -25,9 +24,8 @@ todosRouter.post(
 );
 todosRouter.use(
   '/:id',
-  validateId,
   passport.authenticate('jwt', { session: false }),
-  checkExistance<ITodo>('id', TodoService.findById)
+  // checkExistance<ITodo>('id', TodoService.getById)
 );
 todosRouter.get('/:id', responseHandler(TodoController.getByIdTodo));
 todosRouter.put('/:id', validateBody(TodoSchema), responseHandler(TodoController.updateTodo));

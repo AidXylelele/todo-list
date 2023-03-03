@@ -5,7 +5,7 @@ import { decodeToken, genenerateToken } from "../utils/token.util";
 export class UserController {
   static async create(req: Request) {
     const user = await UserService.createUser(req.body);
-    return genenerateToken({ email: user.email, userId: user._id });
+    return genenerateToken({ email: user.email, userId: user.id });
   }
 
   static async login(req: Request) {

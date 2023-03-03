@@ -1,23 +1,23 @@
 import { PasswordUtil } from '../utils/password.util';
-import { IUser } from '../types/user.type';
+import { IUserSignUp, IUserSignIn } from '../types/user.type';
 import { CustomError } from '../middlewares/error.middleware';
 import User from '../models/User';
 
 export default class UserService {
-  static async createUser(user: IUser): Promise<IUser> {
+  static async createUser(user: IUserSignUp) {
     user.password = PasswordUtil.hash(user.password);
-    return User.build(user);
+    return await User.build(user).save();
   }
 
-  static async findUserByEmail(email: string): Promise<IUser | null> {
+  static async findUserByEmail(email: string) {
     return await User.findOne({ where: { email } });
   }
 
-  static async findUserById(id: string): Promise<IUser | null> {
+  static async findUserById(id: string) {
     return await User.findOne({ where: { id } });
   }
 
-  static async loginUser(data: IUser): Promise<IUser | null> {
+  static async loginUser(data: IUserSignIn) {
     const user = await UserService.findUserByEmail(data.email);
 
     if (!user) {

@@ -1,14 +1,16 @@
-import { Document } from 'mongoose';
-
-export interface IUserSignIn extends Document {
+export interface IUserSignIn {
   email: string;
   password: string;
 }
 
-export interface IUser extends Document {
+export interface IUserSignUp extends IUserSignIn {
+  name: string;
   email: string;
   password: string;
-  avatar: string;
+}
+
+export interface IUser {
+  id: string;
   name: string;
-  date?: Date;
+  email: string;
 }

@@ -1,9 +1,10 @@
-import { sequelize } from "../config/database";
-import Group from "./Group";
-import Todo from "./Todo";
-const { DataTypes } = require("sequelize");
+import { sequelize } from '../config/database';
+import Group from './Group';
+import SubTask from './SubTask';
+import Todo from './Todo';
+const { DataTypes } = require('sequelize');
 
-const User = sequelize.define("users", {
+const User = sequelize.define('users', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -20,7 +21,8 @@ const User = sequelize.define("users", {
   },
 });
 
-User.hasMany(Todo);
-User.hasMany(Group);
+User.hasMany(Todo, { as: 'todos', foreignKey: 'userId' });
+User.hasMany(SubTask, { as: 'sub-tasks', foreignKey: 'userId' });
+User.hasMany(Group, { as: 'groups', foreignKey: 'userId' });
 
 export default User;

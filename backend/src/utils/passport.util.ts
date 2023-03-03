@@ -10,19 +10,25 @@ interface IPayload {
 export const applyPassportStrategy = (passport: typeof PassportStatic) => {
   const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET
+    secretOrKey: 'jwtSecretToken',
   };
   passport.use(
-    new Strategy(options, async (payload: IPayload, done: (a: null, b: IUser | boolean) => any) => {
-      const user = await User.findOne({ _id: payload.userId }).select('email id avatar');
-      try {
-        if (user) {
-          return done(null, user);
+    new Strategy(
+      options,
+      async (payload: IPayload, done: (a: null, b: IUser | boolean) => any) => {
+        const user = await User.findOne({
+          where: { id: payload.userId },
+          attributes: ['name', 'email', 'id'],
+        });
+        try {
+          if (user) {
+            return done(null, user);
+          }
+          return done(null, false);
+        } catch (e) {
+          return null;
         }
-        return done(null, false);
-      } catch (e) {
-        return null;
       }
-    })
+    )
   );
 };
