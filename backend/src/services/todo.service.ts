@@ -1,31 +1,28 @@
-import Todo from "../models/Todo";
-import { ITodo } from "../types/todos.type";
-
+import Todo from '../models/Todo';
+import { ITodo } from '../types/todos.type';
 
 export class TodoService {
   static async create(data: ITodo) {
-    const newTodo = Todo.create(data);
-    return newTodo.save();
+    return Todo.build(data);
   }
 
-  static async update(_id: string, data: ITodo) {
-    return Todo.findOneAndUpdate({ _id }, data, { new: true }).exec();
+  static async update(id: string, data: ITodo) {
+    return Todo.update(data, { where: { id } });
   }
 
-  static async delete(_id: string) {
-    return Todo.deleteOne({ _id });
+  static async delete(id: string) {
+    return Todo.destroy({ where: { id } });
   }
 
   static async findAll() {
-    return Todo.find();
+    return Todo.findAll();
   }
 
   static async getAllTodosByUser(userId: string): Promise<ITodo[] | null> {
-    const todos = await Todo.find({ where: { userId } });
-    return todos;
+    return await Todo.findAll({ where: { userId } });
   }
 
-  static async findById(_id: string) {
-    return Todo.findOne({ _id });
+  static async findById(id: string) {
+    return Todo.findOne({ where: { id } });
   }
 }
