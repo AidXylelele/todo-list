@@ -1,6 +1,5 @@
 import Token from '../models/Token';
 import { tokenUtils } from '../utils/token.util';
-import UserService from './user.service';
 
 export class TokenService {
   static async getByToken(token: string) {
@@ -11,35 +10,25 @@ export class TokenService {
     return await Token.findOne({ where: { userId } });
   }
 
-  static async create(user: any) {
-    const tokens = tokenUtils.generateTokens(user);
-    try {
-        await Token.create({
-          token: tokens.refreshToken,
-          userId: user.id,
-        });
-    } catch (error) {
-        console.log(error)
-    }
-    
+  static async create(userId: string) {
+    const tokens = tokenUtils.generateTokens({ userId });
+    await Token.create({
+      token: tokens.refreshToken,
+      userId,
+    });
     return tokens;
   }
 
   static async update(userId: string) {
-    const user = await UserService.getById(userId);
-    const tokens = tokenUtils.generateTokens(user.dataValues);
-    try {
-      await Token.update(
-        {
-          token: tokens.refreshToken,
-        },
-        { where: { userId } }
-      );
-    } catch (error) {
-      console.log(user);
-    }
+    const tokens = tokenUtils.generateTokens({ userId });
+    await Token.update(
+      {
+        token: tokens.refreshToken,
+      },
+      { where: { userId } }
+    );
 
-    return { ...tokens, user: user.dataValues };
+    return tokens;
   }
 
   static async delete(userId: string) {

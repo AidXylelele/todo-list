@@ -6,7 +6,7 @@ export const checkEmailExistance = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void | NextFunction> => {
+) => {
   const { email } = req.body;
   const userByEmail = await UserService.getByEmail(email);
   if (userByEmail) {

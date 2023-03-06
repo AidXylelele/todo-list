@@ -8,7 +8,7 @@ export default class UserService {
   static async signUp(user: IUserSignUp) {
     user.password = PasswordUtil.hash(user.password);
     const createdUser = await User.create(user);
-    return await TokenService.create(createdUser.dataValues);
+    return await TokenService.create(createdUser.dataValues.id);
   }
 
   static async getByEmail(email: string) {
@@ -24,8 +24,8 @@ export default class UserService {
     return await TokenService.update(tokenRecord.dataValues.userId);
   }
 
-  static async signIn(data: IUserSignIn) {
-    const user = await UserService.getByEmail(data.email);
+  static async signIn({ email, password }: IUserSignIn) {
+    const user = await UserService.getByEmail(email);
 
     if (!user) {
       throw new CustomError(404, 'Wrong email or password');
@@ -33,7 +33,7 @@ export default class UserService {
 
     const { dataValues } = user;
     const isPasswordEquals = PasswordUtil.compare(
-      data.password,
+      password,
       dataValues.password
     );
 

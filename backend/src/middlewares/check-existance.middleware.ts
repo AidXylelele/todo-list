@@ -3,10 +3,9 @@ import { CustomError } from './error.middleware';
 
 export const checkExistance =
   <T>(field: string, service: (id: string) => Promise<T | null>) =>
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { body } = req;
-      const { params } = req;
+      const { body, params } = req;
       const param = body[field] || params[field];
       const todo = await service(param);
       if (todo) {

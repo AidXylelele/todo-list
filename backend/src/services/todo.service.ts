@@ -16,14 +16,14 @@ export class TodoService {
   }
 
   static async getAll(userId: string) {
-    console.log(userId)
+    console.log(userId);
     return await Todo.findAll({
       where: { userId },
       include: [{ as: 'sub-tasks', model: SubTask }],
     });
   }
 
-  static async getById(userId: string, id: string): Promise<ITodo | null> {
+  static async getById(userId: string, id: string) {
     return await Todo.findAll({
       where: { id, userId },
       include: [{ as: 'sub-tasks', model: SubTask }],

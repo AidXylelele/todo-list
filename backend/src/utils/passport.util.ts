@@ -1,6 +1,3 @@
-import { IUser } from '../types/user.type';
-import UserService from '../services/user.service';
-
 const { Strategy, ExtractJwt } = require('passport-jwt');
 const { PassportStatic } = require('passport');
 
@@ -15,21 +12,17 @@ export const applyPassportStrategy = (passport: typeof PassportStatic) => {
   passport.use(
     new Strategy(
       options,
-      async (
-        data: any,
-        done: (a: null, b: IUser | boolean) => any
-      ) => {
+      async (data: IPayload, done: (a: null, b: IPayload | boolean) => any) => {
         try {
-          if (data) {
+          if (data.userId) {
             return done(null, data);
           }
           return done(null, false);
         } catch (e) {
-          console.log(e)
+          console.log(e);
           return null;
         }
       }
     )
   );
-  
 };

@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 
 type IEncodeData = {
   userId: string;
-  email: string;
 };
 
 interface ITokenOptions {

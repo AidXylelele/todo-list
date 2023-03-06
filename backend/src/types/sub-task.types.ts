@@ -1,5 +1,4 @@
-import { Request } from 'express';
-import { IUser } from './user.type';
+import { IRequest } from './request.type';
 
 export interface ISubTask {
   title: string;
@@ -7,10 +6,6 @@ export interface ISubTask {
   isDone: boolean;
 }
 
-export interface ISubTaskRequest extends Request {
+export interface ISubTaskRequest extends IRequest {
   body: ISubTask;
-  user: IUser;
-  params: {
-    id: string;
-  };
 }
