@@ -4,7 +4,7 @@ import 'dotenv/config';
 import AppRouter from './routes';
 import connectDB from './config/database';
 import { applyPassportStrategy } from './utils/passport.util';
-
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 
 const cors = require('cors');
@@ -14,6 +14,7 @@ const router = new AppRouter(app);
 connectDB();
 
 app.set('port', process.env.PORT || 4200);
+app.use(cookieParser())
 app.use(passport.initialize());
 applyPassportStrategy(passport);
 app.use(bodyParser.json());

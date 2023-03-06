@@ -13,6 +13,7 @@ export class TodoController {
 
   static async getAll(req: ITodoRequest): Promise<ITodo[] | null> {
     const { user } = req;
+    console.log(user)
     return await TodoService.getAll(user.id);
   }
 

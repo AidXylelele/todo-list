@@ -16,6 +16,7 @@ export class TodoService {
   }
 
   static async getAll(userId: string) {
+    console.log(userId)
     return await Todo.findAll({
       where: { userId },
       include: [{ as: 'sub-tasks', model: SubTask }],

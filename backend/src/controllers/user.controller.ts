@@ -1,22 +1,25 @@
-import { Request } from "express";
-import UserService from "../services/user.service";
-import { decodeToken, genenerateToken } from "../utils/token.util";
+import { Request, Response } from 'express';
+import UserService from '../services/user.service';
 
 export class UserController {
-  static async create(req: Request) {
-    const user = await UserService.createUser(req.body);
-    return genenerateToken({ email: user.email, userId: user.id });
+  static async signUp(req: Request, res: any) {
+    const { refreshToken, accessToken } = await UserService.signUp(req.body);
+    res.cookie('refreshToken', refreshToken);
+    return accessToken;
   }
 
-  static async login(req: Request) {
-    const user = await UserService.loginUser(req.body);
-    return genenerateToken({ email: user!.email, userId: user!._id });
+  static async signIn(req: Request, res: any) {
+    const { refreshToken, accessToken } = await UserService.signIn(req.body);
+    res.cookie('refreshToken', refreshToken);
+    return accessToken;
   }
 
-  static async find(req: Request) {
-    const token = req.headers.authorization;
-    const data = decodeToken(token!);
-    const user = await UserService.findUserById(data.userId);
-    return user;
+  static async refresh(req: Request, res: any) {
+    const { cookies } = req;
+    const { refreshToken, accessToken } = await UserService.refresh(
+      cookies.refreshToken
+    );
+    res.cookie('refreshToken', refreshToken);
+    return accessToken;
   }
 }

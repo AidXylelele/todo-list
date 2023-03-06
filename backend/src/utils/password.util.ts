@@ -8,7 +8,7 @@ export class PasswordUtil {
   }
 
   static compare(password: string, hash: string) {
-    const enteredPass = crypto.scryptSync(password, 'salt', 64).toString('hex');
+    const enteredPass = this.hash(password);
     return enteredPass === hash;
   }
 }

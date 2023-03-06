@@ -8,7 +8,7 @@ export const checkEmailExistance = async (
   next: NextFunction
 ): Promise<void | NextFunction> => {
   const { email } = req.body;
-  const userByEmail = await UserService.findUserByEmail(email);
+  const userByEmail = await UserService.getByEmail(email);
   if (userByEmail) {
     return next(new CustomError(400, 'User with such email already exist'));
   }
