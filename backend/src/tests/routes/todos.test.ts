@@ -66,7 +66,7 @@ describe('todos', () => {
       .get('/todos')
       .set('Authorization', accessToken)
       .set('Cookie', cookies);
-
+      
     expect(list.body.length > 0).toBe(true);
     expect(list.statusCode).toBe(200);
     expect(created.statusCode).toBe(200);
