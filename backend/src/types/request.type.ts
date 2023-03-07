@@ -5,6 +5,6 @@ export interface IRequest extends Request {
     userId: string;
   };
   params: {
-    id: string;
+    [key: string]: string;
   };
 }

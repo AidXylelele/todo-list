@@ -1,18 +1,31 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import { CustomError } from '../utils/error.util';
 
+declare module 'express-serve-static-core' {
+  interface Request {
+    user: {
+      userId: string;
+    };
+  }
+}
+
+
 export const checkExistance =
-  <T>(field: string, service: (id: string) => Promise<T | null>) =>
+  <T>(
+    field: string,
+    service: (userId: string, id: string) => Promise<T | null>
+  ) =>
   async (req: Request, _res: Response, next: NextFunction) => {
     try {
-      const { body, params } = req;
+      const { body, params, user } = req;
+      const { userId } = user;
       const param = body[field] || params[field];
-      const record = await service(param);
-      if (record) {
-        return next();
+      const record = await service(userId, param);
+      if (!record) {
+        throw new CustomError(404, 'Something went wrong');
       }
-      throw new CustomError(404, 'Something went wrong');
+      return next();
     } catch (error) {
-      next(error);
+      return next(error);
     }
   };

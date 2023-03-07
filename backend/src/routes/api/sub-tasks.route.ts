@@ -3,30 +3,35 @@ import { validateBody } from '../../middlewares/body.middleware';
 import { checkExistance } from '../../middlewares/check-existance.middleware';
 import { responseHandler } from '../../middlewares/response.middleware';
 import { SubTaskController } from '../../controllers/sub-task.controller';
-import { SubTaskSchema } from '../../validators/sub-task.validator';
+import {
+  CreateSubTaskSchema,
+  EditSubTaskSchema,
+} from '../../validators/sub-task.validator';
 import { errorHandler } from '../../middlewares/error.middleware';
 import { authenticate } from '../../middlewares/auth.middleware';
+import { SubTaskService } from '../../services/sub-task.service';
+import { ISubTaskDBRecord } from '../../types/sub-task.types';
 
 const subTasksRouter: Router = Router();
 
 subTasksRouter.use('', authenticate);
 subTasksRouter.get(
   '',
-  
+
   responseHandler(SubTaskController.getAll),
   errorHandler
 );
 subTasksRouter.post(
   '',
 
-  validateBody(SubTaskSchema),
+  validateBody(CreateSubTaskSchema),
   responseHandler(SubTaskController.create),
   errorHandler
 );
-// subTasksRouter.use(
-//   '/:id',
-//   // checkExistance<ITodo>('id', TodoService.getById)
-// );
+subTasksRouter.use(
+  '/:id',
+  checkExistance<ISubTaskDBRecord>('id', SubTaskService.getById)
+);
 subTasksRouter.get(
   '/:id',
   responseHandler(SubTaskController.getById),
@@ -34,7 +39,7 @@ subTasksRouter.get(
 );
 subTasksRouter.put(
   '/:id',
-  validateBody(SubTaskSchema),
+  validateBody(EditSubTaskSchema),
   responseHandler(SubTaskController.update),
   errorHandler
 );

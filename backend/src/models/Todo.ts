@@ -2,15 +2,21 @@ import { sequelize } from '../config/database';
 import SubTask from './SubTask';
 const { DataTypes } = require('sequelize');
 
-const Todo = sequelize.define('todos', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
+const Todo = sequelize.define(
+  'todos',
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
+    title: { type: DataTypes.TEXT, allowNull: false },
+    isDone: { type: DataTypes.BOOLEAN, default: false, allowNull: false },
   },
-  title: { type: DataTypes.TEXT, allowNull: false },
-  isDone: { type: DataTypes.BOOLEAN, default: false, allowNull: false },
-});
+  {
+    timestamps: false,
+  }
+);
 
 Todo.hasMany(SubTask, {
   as: 'sub-tasks',

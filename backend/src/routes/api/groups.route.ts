@@ -6,6 +6,8 @@ import { GroupController } from '../../controllers/group.controller';
 import { GroupSchema } from '../../validators/group.validators';
 import { errorHandler } from '../../middlewares/error.middleware';
 import { authenticate } from '../../middlewares/auth.middleware';
+import { IGroupDBRecord } from '../../types/group.type';
+import { GroupService } from '../../services/group.service';
 
 const groupsRouter: Router = Router();
 
@@ -17,16 +19,23 @@ groupsRouter.post(
   responseHandler(GroupController.create),
   errorHandler
 );
-// groupsRouter.use(
-//   '/:id',
-//   passport.authenticate('jwt', { session: false })
-//   // checkExistance<ITodo>('id', TodoService.getById)
-// );
+groupsRouter.use(
+  '/:id',
+  checkExistance<IGroupDBRecord>('id', GroupService.getById)
+);
 groupsRouter.get(
   '/:id',
   responseHandler(GroupController.getById),
   errorHandler
 );
+
+groupsRouter.put(
+  '/:id',
+  validateBody(GroupSchema),
+  responseHandler(GroupController.update),
+  errorHandler
+);
+
 groupsRouter.delete(
   '/:id',
   responseHandler(GroupController.delete),
