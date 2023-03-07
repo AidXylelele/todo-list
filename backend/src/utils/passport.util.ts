@@ -7,7 +7,7 @@ interface IPayload {
 export const applyPassportStrategy = (passport: typeof PassportStatic) => {
   const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'access',
+    secretOrKey: process.env.ACCESS_SECRET!,
   };
   passport.use(
     new Strategy(

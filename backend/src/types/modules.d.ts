@@ -1,9 +1,10 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      MONGO_URI: string;
-      JWT_SECRET: string;
-      JWT_EXPIRATION: string;
+      ACCESS_SECRET: string;
+      ACCESS_EXPIRATION: string;
+      REFRESH_SECRET: string;
+      REFRESH_EXPIRATION: string;
     }
   }
 }

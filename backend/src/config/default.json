@@ -1,4 +1,6 @@
 {
-  "jwtSecret": "jwtSecretToken",
-  "jwtExpiration": 360000
+  "ACCESS_SECRET": "access",
+  "ACCESS_EXPIRATION": "360000",
+  "REFRESH_SECRET": "refresh",
+  "REFRESH_EXPIRATION": "3600000"
 }

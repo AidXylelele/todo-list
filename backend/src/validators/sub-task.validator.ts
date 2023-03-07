@@ -1,5 +1,4 @@
 import * as Joi from 'joi';
-// prettier-ignore
 
 export const CreateSubTaskSchema = Joi.object({
   title: Joi.string().min(2).trim().required(),

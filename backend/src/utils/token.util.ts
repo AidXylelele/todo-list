@@ -11,12 +11,12 @@ interface ITokenOptions {
 
 class TokenUtils {
   private accessOptions: ITokenOptions = {
-    secretWord: 'access',
-    expiresIn: '36000000',
+    secretWord: process.env.ACCESS_SECRET!,
+    expiresIn: process.env.ACCESS_EXPIRATION!,
   };
   private refreshOptions: ITokenOptions = {
-    secretWord: 'refresh',
-    expiresIn: '360000000',
+    secretWord: process.env.REFRESH_SECRET!,
+    expiresIn: process.env.REFRESH_EXPIRATION!,
   };
 
   private generate(value: IEncodeData, secretWord: string, expiresIn: string) {
