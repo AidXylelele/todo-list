@@ -1,17 +1,11 @@
-export class CustomError extends Error {
-  name = 'Server Error';
+import { Request, Response } from 'express';
+import { CustomError } from '../utils/error.util';
 
-  status: number;
-
-  message: string;
-
-  code?: number;
-
-  constructor(status: number, msg: string, code?: number) {
-    super(msg);
-    this.message = msg;
-    this.status = status;
-    this.code = code;
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
+export const errorHandler = (
+  err: Error | CustomError,
+  req: Request,
+  res: Response
+) => {
+  console.error(err.stack);
+  res.status(500).send(err.message);
+};

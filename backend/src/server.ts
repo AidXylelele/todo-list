@@ -24,13 +24,6 @@ app.use(cors());
 router.init();
 
 const port = app.get('port');
-const customErrorHandler = (err: any, req: Request, res: Response): void => {
-  res.status(err.status || 500).json({
-    message: err.message || 'Unknown Error',
-    code: err.code
-  });
-};
-app.use(customErrorHandler);
 
 const server = app.listen(port, () => console.log(`Server started on port ${port}`));
 

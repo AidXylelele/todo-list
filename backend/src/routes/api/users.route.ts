@@ -4,23 +4,32 @@ import { validateBody } from '../../middlewares/body.middleware';
 import { SignUpSchema, SignInSchema } from '../../validators/user.validators';
 import { checkEmailExistance } from '../../middlewares/check-acctount.middleware';
 import { UserController } from '../../controllers/user.controller';
+import { errorHandler } from '../../middlewares/error.middleware';
+import { authenticate } from '../../middlewares/auth.middleware';
 
-const router: Router = Router();
+const userRouter: Router = Router();
 
-router.post(
+userRouter.post(
   '/register',
   validateBody(SignUpSchema),
   checkEmailExistance,
-  responseHandler(UserController.signUp)
+  responseHandler(UserController.signUp),
+  errorHandler
 );
-router.post(
+userRouter.post(
   '/login',
   validateBody(SignInSchema),
-  responseHandler(UserController.signIn)
+  responseHandler(UserController.signIn),
+  errorHandler
 );
-router.get(
+userRouter.get(
   '/refresh',
-  responseHandler(UserController.refresh)
+  responseHandler(UserController.refresh),
+  errorHandler
 );
 
-export default router;
+userRouter.use('/', authenticate);
+
+userRouter.get('/logOut', responseHandler(UserController.logOut));
+
+export default userRouter;

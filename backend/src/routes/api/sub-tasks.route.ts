@@ -4,33 +4,44 @@ import { checkExistance } from '../../middlewares/check-existance.middleware';
 import { responseHandler } from '../../middlewares/response.middleware';
 import { SubTaskController } from '../../controllers/sub-task.controller';
 import { SubTaskSchema } from '../../validators/sub-task.validator';
-
-const passport = require('passport');
+import { errorHandler } from '../../middlewares/error.middleware';
+import { authenticate } from '../../middlewares/auth.middleware';
 
 const subTasksRouter: Router = Router();
 
+subTasksRouter.use('', authenticate);
 subTasksRouter.get(
   '',
-  passport.authenticate('jwt', { session: false }),
-  responseHandler(SubTaskController.getAll)
+  
+  responseHandler(SubTaskController.getAll),
+  errorHandler
 );
 subTasksRouter.post(
   '',
-  passport.authenticate('jwt', { session: false }),
+
   validateBody(SubTaskSchema),
-  responseHandler(SubTaskController.create)
+  responseHandler(SubTaskController.create),
+  errorHandler
 );
-subTasksRouter.use(
+// subTasksRouter.use(
+//   '/:id',
+//   // checkExistance<ITodo>('id', TodoService.getById)
+// );
+subTasksRouter.get(
   '/:id',
-  passport.authenticate('jwt', { session: false })
-  // checkExistance<ITodo>('id', TodoService.getById)
+  responseHandler(SubTaskController.getById),
+  errorHandler
 );
-subTasksRouter.get('/:id', responseHandler(SubTaskController.getById));
 subTasksRouter.put(
   '/:id',
   validateBody(SubTaskSchema),
-  responseHandler(SubTaskController.update)
+  responseHandler(SubTaskController.update),
+  errorHandler
 );
-subTasksRouter.delete('/:id', responseHandler(SubTaskController.delete));
+subTasksRouter.delete(
+  '/:id',
+  responseHandler(SubTaskController.delete),
+  errorHandler
+);
 
 export default subTasksRouter;

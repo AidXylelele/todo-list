@@ -1,6 +1,6 @@
 import { PasswordUtil } from '../utils/password.util';
 import { IUserSignUp, IUserSignIn } from '../types/user.type';
-import { CustomError } from '../middlewares/error.middleware';
+import { CustomError } from '../utils/error.util';
 import User from '../models/User';
 import { TokenService } from './token.service';
 
@@ -41,6 +41,10 @@ export default class UserService {
       throw new CustomError(404, 'Wrong email or password');
     }
 
-    return await TokenService.update(dataValues.id);
+    return await TokenService.create(dataValues.id);
+  }
+
+  static async logOut(id: string) {
+    return await TokenService.delete(id);
   }
 }

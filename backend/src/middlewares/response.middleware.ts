@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from 'express';
-import { CustomError } from './error.middleware';
+import { CustomError } from '../utils/error.util';
 
 export const responseHandler =
   (fn: Function) => async (req: Request, res: Response, next: NextFunction) => {
@@ -11,7 +11,7 @@ export const responseHandler =
       const { refreshToken } = value;
       if (refreshToken) res.cookie('refreshToken', value['refreshToken']);
       res.json(value);
-    } catch (e) {
-      next(e);
+    } catch (error) {
+      next(error);
     }
   };

@@ -4,29 +4,33 @@ import { checkExistance } from '../../middlewares/check-existance.middleware';
 import { responseHandler } from '../../middlewares/response.middleware';
 import { GroupController } from '../../controllers/group.controller';
 import { GroupSchema } from '../../validators/group.validators';
-
-const passport = require('passport');
+import { errorHandler } from '../../middlewares/error.middleware';
+import { authenticate } from '../../middlewares/auth.middleware';
 
 const groupsRouter: Router = Router();
 
-groupsRouter.get(
-  '',
-  passport.authenticate('jwt', { session: false }),
-  responseHandler(GroupController.getAll)
-);
+groupsRouter.use('', authenticate);
+groupsRouter.get('', responseHandler(GroupController.getAll), errorHandler);
 groupsRouter.post(
   '',
-  passport.authenticate('jwt', { session: false }),
   validateBody(GroupSchema),
-  responseHandler(GroupController.create)
+  responseHandler(GroupController.create),
+  errorHandler
 );
 // groupsRouter.use(
 //   '/:id',
 //   passport.authenticate('jwt', { session: false })
 //   // checkExistance<ITodo>('id', TodoService.getById)
 // );
-groupsRouter.get('/:id', responseHandler(GroupController.getById));
-
-groupsRouter.delete('/:id', responseHandler(GroupController.delete));
+groupsRouter.get(
+  '/:id',
+  responseHandler(GroupController.getById),
+  errorHandler
+);
+groupsRouter.delete(
+  '/:id',
+  responseHandler(GroupController.delete),
+  errorHandler
+);
 
 export default groupsRouter;
