@@ -35,7 +35,7 @@ export class TodoService {
     userId: string,
     id: string
   ): Promise<ITodoDBRecord | null> {
-    return await Todo.findAll({
+    return await Todo.findOne({
       where: { id, userId },
       include: [{ as: 'sub-tasks', model: SubTask }],
     });
