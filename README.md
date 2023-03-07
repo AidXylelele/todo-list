@@ -2,30 +2,13 @@ Web application that helps you to find recipe based on products you have.
 
 # Getting started
 
-1. ```git clone https://github.com/AidXylelele/book-of-recipes```
+1. ```git clone https://github.com/AidXylelele/todo-list.git```
 2. ```npm i```
-3. Open 2 terminal windows
+3. Go to setup folder via ```cd backend/src/config/setup folder```
+4. Run setup.sh to create needed database and user in pg via ```sh setup.sh``` 
+5. Run in root folder ```npm run backend```
+6. Run unit-test via ```npm test```
 
-- in first one: ```npm run backend```
-
-- in second one: ```npm start```
-4. Open http://localhost:3000/ to see result
-
-# Tech stack
-
-### Server side:
-
-1. Typescript
-2. Express
-3. MongoDB
-
-### Client side: 
-
-1. Typescript
-2. React
-3. Material-UI
-
-# Deploy
-
-See our app deployed on AWS: <deploy link>
+### API Documentation:
+ - [API](https://documenter.getpostman.com/view/23834616/2s93JqR54P) 
 
