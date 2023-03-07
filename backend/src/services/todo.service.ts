@@ -9,11 +9,6 @@ export class TodoService {
   ): Promise<ITodoDBRecord | null> {
     console.log(data)
     console.log(userId)
-    try {
-      await Todo.build({ ...data, userId }).save();
-    } catch (error) {
-      console.log(error);
-    }
     return await Todo.build({ ...data, userId }).save();
   }
 
