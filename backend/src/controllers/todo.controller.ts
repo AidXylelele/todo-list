@@ -17,6 +17,7 @@ export class TodoController {
   static async create(req: ITodoRequest): Promise<ITodoDBRecord | null> {
     const { body, user } = req;
     const { userId } = user;
+    console.log(userId)
     return await TodoService.create(userId, body);
   }
 

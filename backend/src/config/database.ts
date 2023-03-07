@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-export const sequelize = new Sequelize('todo-list', 'postgres', 'Qwerty123', {
+export const sequelize = new Sequelize('application', 'admin', 'Qwerty123', {
   host: 'localhost',
   dialect: 'postgres',
 });

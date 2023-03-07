@@ -7,7 +7,7 @@ import { TokenService } from './token.service';
 export default class UserService {
   static async signUp(user: IUserSignUp) {
     user.password = PasswordUtil.hash(user.password);
-    const createdUser = await User.create(user);
+    const createdUser = await User.build(user).save();
     return await TokenService.create(createdUser.dataValues.id);
   }
 

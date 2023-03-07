@@ -7,6 +7,13 @@ export class TodoService {
     userId: string,
     data: ITodo
   ): Promise<ITodoDBRecord | null> {
+    console.log(data)
+    console.log(userId)
+    try {
+      await Todo.build({ ...data, userId }).save();
+    } catch (error) {
+      console.log(error);
+    }
     return await Todo.build({ ...data, userId }).save();
   }
 
@@ -24,7 +31,6 @@ export class TodoService {
   }
 
   static async getAll(userId: string): Promise<ITodoDBRecord[] | null> {
-    console.log('userId', userId);
     return await Todo.findAll({
       where: { userId },
     });
