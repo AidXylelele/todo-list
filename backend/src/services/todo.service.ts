@@ -7,8 +7,6 @@ export class TodoService {
     userId: string,
     data: ITodo
   ): Promise<ITodoDBRecord | null> {
-    console.log(data)
-    console.log(userId)
     return await Todo.build({ ...data, userId }).save();
   }
 
